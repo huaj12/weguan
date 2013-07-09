@@ -14,6 +14,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
@@ -78,10 +79,17 @@ public class MainActivity extends SlidingFragmentActivity {
 	private RelativeLayout hearView;
 	private Timer timer;
 	private int index = 1;
+	private String spread_app_url = "http://m.app.so.com/detail/index?pname=com.easylife.movie&id=360240";
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
-			if (mSwitcher != null) {
-				mSwitcher.setImageResource(msg.what);
+			if (msg.what == 1) {
+				if (!isFinishing()) {
+					showDialog();
+				}
+			} else {
+				if (mSwitcher != null) {
+					mSwitcher.setImageResource(msg.what);
+				}
 			}
 		}
 	};
@@ -168,6 +176,12 @@ public class MainActivity extends SlidingFragmentActivity {
 					slidingMenu.setSecondaryMenu(R.layout.fragment_right);
 					t.replace(R.id.right_frame, rightFragment);
 					t.commitAllowingStateLoss();
+					new Timer().schedule(new TimerTask() {
+						@Override
+						public void run() {
+							handler.sendEmptyMessage(1);
+						}
+					}, 3000);
 
 				} else {
 					AlertDialog.Builder builder = new Builder(MainActivity.this);
@@ -381,6 +395,51 @@ public class MainActivity extends SlidingFragmentActivity {
 			return new TimeSlider(this, mTimeSetListener, c, 5);
 		}
 		return null;
+	}
+
+	private void showDialog() {
+		final SharedPreferencesManager manager = new SharedPreferencesManager(
+				this);
+		long dailogTime = manager
+				.getLong(SharedPreferencesManager.SPREAD_APP_DAILOG_TIME);
+		boolean hasDialog = manager.getBoolean(
+				SharedPreferencesManager.HAS_SPREAD_APP_DAILOG, false);
+		// 没有弹过框,间隔时间大于72小时
+		if (!hasDialog
+				&& System.currentTimeMillis() - dailogTime > Constants.INTERVAL_DIALOG_TIME) {
+			new AlertDialog.Builder(MainActivity.this)
+					.setTitle(R.string.spread_app_title)
+					.setMessage(R.string.spread_app_message)
+					.setPositiveButton(R.string.spread_app_ok,
+							new DialogInterface.OnClickListener() {
+
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+									manager.commit(
+											SharedPreferencesManager.HAS_SPREAD_APP_DAILOG,
+											true);
+									Intent viewIntent = new Intent(
+											"android.intent.action.VIEW", Uri
+													.parse(spread_app_url));
+									startActivity(viewIntent);
+
+								}
+							})
+					.setNegativeButton(
+
+					R.string.spread_app_cancel,
+							new DialogInterface.OnClickListener() {
+
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+									manager.commit(
+											SharedPreferencesManager.SPREAD_APP_DAILOG_TIME,
+											System.currentTimeMillis());
+								}
+							}).show();
+		}
 	}
 
 }

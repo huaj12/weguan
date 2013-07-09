@@ -115,4 +115,9 @@
 	<string name="no_remind_answer">请打开相关系统权限：设置-应用-懒人天气-权限管理-自动启动</string>
 	<string name="i_kown">知道了</string>
 	<string name="xiaomi">xiaomi</string>
+	
+	<string name="spread_app_ok">去看看</string>
+    <string name="spread_app_cancel">下次再说</string>
+    <string name="spread_app_message">【哇哦小视频】帮你打发各种空虚无聊，快来试试吧！</string>
+    <string name="spread_app_title">懒人团队推出新品</string>
 </resources>

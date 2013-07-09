@@ -10,4 +10,7 @@ public class Constants {
 	public static final String ALARM_INTENT = "android.alarm.weather.action";
 	// 高温提示温度
 	public static final int HOT_TMP = 35;
+	// 推广框间隔时间
+	public static final long INTERVAL_DIALOG_TIME = 1000 * 3600 * 24 * 3;
+	// public static final long INTERVAL_DIALOG_TIME = 1000 * 60;
 }

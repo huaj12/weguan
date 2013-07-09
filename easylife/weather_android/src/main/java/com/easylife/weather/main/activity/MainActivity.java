@@ -341,6 +341,10 @@ public class MainActivity extends SlidingFragmentActivity {
 		if (cooling != 0) {
 			resources.add(cooling);
 		}
+		int hotTmp = WeatherUtils.getTmpResource(weatherInfo);
+		if (hotTmp != 0) {
+			resources.add(hotTmp);
+		}
 		if (resources.size() == 0) {
 			resources.add(R.drawable.wycx_normal);
 		}
@@ -379,7 +383,4 @@ public class MainActivity extends SlidingFragmentActivity {
 		return null;
 	}
 
-	public void closeRight() {
-		slidingMenu.showSecondaryMenu();
-	}
 }

@@ -20,4 +20,5 @@
 	  <color name="right_content_text_color">#BBBBBB</color>
 	  <color name="setting_list_color">#222222</color>
 	  <color name="setting_list_hover_color">#888888</color>
+	  <color name="right_value_text_color">#666666</color>
 </resources>

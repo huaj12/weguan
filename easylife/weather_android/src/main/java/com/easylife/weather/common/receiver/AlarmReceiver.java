@@ -181,6 +181,17 @@ public class AlarmReceiver extends BroadcastReceiver {
 			} catch (Exception e) {
 			}
 		}
+		if (user.isRemindHot()) {
+			try {
+				int tmp = Integer.parseInt(info.getMaxTmp());
+				if (tmp >= Constants.HOT_TMP) {
+					text.append(context.getResources().getString(
+							R.string.remind_hot_tmp_text, info.getMaxTmp()));
+				}
+			} catch (Exception e) {
+
+			}
+		}
 		if (user.isRemindWind()) {
 			try {
 				int daytimeWind = WeatherUtils.getWindLevel(info
@@ -204,5 +215,4 @@ public class AlarmReceiver extends BroadcastReceiver {
 			return null;
 		}
 	}
-
 }

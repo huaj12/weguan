@@ -22,6 +22,7 @@
     <string name="share_text3">温度骤降！请注意加衣保暖！</string>
     <string name="share_text4">有强风，请尽量减少外出!</string>
     <string name="share_text5">有空气污染，建议带口罩外出！</string>
+    <string name="share_text6">有高温警报，请注意防暑!</string>
     <string name="notification_title">懒人天气提醒您</string>
     <string name="no_wifi">为了节省您的流量请到wifi环境下更新</string>
     <string name="no_update_ver">暂时还没新版本:)</string>
@@ -72,6 +73,7 @@
     
     <!-- setting -->
     <string name="remind_rain">提醒带伞</string>
+    <string name="remind_hot">提醒高温</string>
     <string name="remind_cooling">降温提醒</string>
     <string name="remind_wind">大风预警</string>
     <string name="share_title">告诉你关心的人</string>
@@ -96,13 +98,21 @@
     <string name="remind_confirm">您确定要取消该提醒?</string>
     <string name="confirm">提示</string>
     
-    <string name="remind_rain_text">%1$s有雨，记得带伞哦</string>
-    <string name="remind_wind_text">有强风，请尽量减少外出</string>
-	<string name="remind_big_wind_text">有超强风,强烈建议您不要外出!</string>
+    <string name="remind_rain_text">%1$s有雨，记得带伞哦！</string>
+    <string name="remind_wind_text">有强风，请尽量减少外出！</string>
+	<string name="remind_big_wind_text">有超强风,强烈建议您不要外出！</string>
 	<string name="remind_tmp_text">温度骤降！请注意加衣保暖！</string>
+	<string name="remind_hot_tmp_text">气温最高%1$s度，请注意防暑！</string>
+	
 	<string name="remind_text">今天%1$s</string>
 	<string name="morning">白天</string>
 	<string name="night">晚上</string>
 	<string name="all_day">全天</string>
 	<string name="today">今天</string>
+	
+	<string name="qa">相关问题</string>
+	<string name="no_remind">收不到提醒?</string>
+	<string name="no_remind_answer">请打开相关系统权限：设置-应用-懒人天气-权限管理-自动启动</string>
+	<string name="i_kown">知道了</string>
+	<string name="xiaomi">xiaomi</string>
 </resources>

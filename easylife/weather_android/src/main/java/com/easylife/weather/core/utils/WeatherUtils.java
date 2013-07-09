@@ -29,7 +29,7 @@ public class WeatherUtils {
 	private static final int[] WEATHER_TYEP = { R.drawable.btyy_normal,
 			R.drawable.wsyy_normal, R.drawable.qtyy_normal,
 			R.drawable.wdzj_normal, R.drawable.dflx_normal,
-			R.drawable.kqwr_normal };
+			R.drawable.kqwr_normal, R.drawable.jrgw_normal };
 
 	public static int getRainResource(WeatherInfo info, Context context) {
 		int resource = 0;
@@ -70,6 +70,17 @@ public class WeatherUtils {
 		int pm25 = getPM2Level(info);
 		if (pm25 > 3) {
 			resource = R.drawable.kqwr_normal;
+		}
+		return resource;
+	}
+
+	public static int getTmpResource(WeatherInfo info) {
+		int resource = 0;
+		try {
+			if (Integer.parseInt(info.getMaxTmp()) > Constants.HOT_TMP) {
+				resource = R.drawable.jrgw_normal;
+			}
+		} catch (Exception e) {
 		}
 		return resource;
 	}
@@ -277,8 +288,8 @@ public class WeatherUtils {
 		long noticePeriod = 1000 * 3600 * 24;
 		UserConfig user = UserConfigManager.getUserConfig(context);
 		if (user == null
-				|| (user.isRemindCooling() || user.isRemindRain() || user
-						.isRemindWind())) {
+				|| (user.isRemindCooling() || user.isRemindRain()
+						|| user.isRemindWind() || user.isRemindHot())) {
 			AlarmManager am = (AlarmManager) context
 					.getSystemService(Context.ALARM_SERVICE);
 			PendingIntent sender = PendingIntent.getBroadcast(context, 0,

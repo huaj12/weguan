@@ -34,7 +34,7 @@ public class RemindListAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return 3;
+		return 4;
 	}
 
 	@Override
@@ -70,6 +70,19 @@ public class RemindListAdapter extends BaseAdapter {
 			break;
 		case 1:
 			textView.setText(context.getResources().getString(
+					R.string.remind_hot));
+			button.setChecked(user.isRemindHot());
+			button.setOnChangedListener(new OnChangedListener() {
+
+				@Override
+				public void OnChanged(boolean checkState) {
+					user.setRemindHot(checkState);
+					updateUser(user);
+				}
+			});
+			break;
+		case 2:
+			textView.setText(context.getResources().getString(
 					R.string.remind_cooling));
 			button.setChecked(user.isRemindCooling());
 			button.setOnChangedListener(new OnChangedListener() {
@@ -81,7 +94,7 @@ public class RemindListAdapter extends BaseAdapter {
 				}
 			});
 			break;
-		case 2:
+		case 3:
 			textView.setText(context.getResources().getString(
 					R.string.remind_wind));
 			button.setChecked(user.isRemindWind());
@@ -106,7 +119,7 @@ public class RemindListAdapter extends BaseAdapter {
 		} catch (WeatherException e) {
 		}
 		if (!user.isRemindCooling() && !user.isRemindRain()
-				&& !user.isRemindWind()) {
+				&& !user.isRemindWind() && !user.isRemindHot()) {
 			AlarmManager am = (AlarmManager) context
 					.getSystemService(Context.ALARM_SERVICE);
 			PendingIntent sender = PendingIntent.getBroadcast(context, 0,

@@ -16,6 +16,9 @@ public class SharedPreferencesManager {
 	public final static String P_BACKGROUNDCOLOR = "p_backgroundcolor";
 	public final static String CREATE_SHORTCUT = "create_shortcut";
 	public final static String LAST_UPDATE_TIME = "last_update_time";
+	// 推广框
+	public static final String SPREAD_APP_DAILOG_TIME = "spread_app_dialog_time";
+	public static final String HAS_SPREAD_APP_DAILOG = "has_spread_app_dialog";
 
 	public SharedPreferencesManager(Context context) {
 		sharedPreferences = context.getSharedPreferences("weather-android",
@@ -86,5 +89,9 @@ public class SharedPreferencesManager {
 
 	public boolean getBoolean(String key) {
 		return sharedPreferences.getBoolean(key, false);
+	}
+
+	public boolean getBoolean(String key, boolean defValue) {
+		return sharedPreferences.getBoolean(key, defValue);
 	}
 }

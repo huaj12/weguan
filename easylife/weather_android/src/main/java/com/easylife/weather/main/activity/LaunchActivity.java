@@ -60,6 +60,7 @@ public class LaunchActivity extends BaseActivity {
 		if (userConfig == null
 				|| !StringUtils.hasText(userConfig.getCityName())) {
 			// 开始自动定位如果自动定位失败则跳转到选择城市页面
+			regLastDialogTime();
 			location = new BDLocation(LaunchActivity.this);
 			location.start(new BDLocationCallback() {
 
@@ -131,6 +132,14 @@ public class LaunchActivity extends BaseActivity {
 			finish();
 		}
 		WeatherUtils.setRepeating(this);
+	}
+
+	private void regLastDialogTime() {
+		// 第一次进入
+		SharedPreferencesManager manager = new SharedPreferencesManager(
+				LaunchActivity.this);
+		manager.commit(SharedPreferencesManager.SPREAD_APP_DAILOG_TIME,
+				System.currentTimeMillis());
 	}
 
 	@Override

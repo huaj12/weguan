@@ -58,7 +58,7 @@
             </intent-filter>
         </receiver>
         
-      <receiver android:name=".common.receiver.AlarmReceiver" android:process=":remote" >
+      <receiver android:name=".common.receiver.AlarmReceiver"  >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.alarm.weather.action"/>

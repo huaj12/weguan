@@ -80,4 +80,12 @@ public class UserConfig implements Serializable {
 		this.remindHot = remindHot;
 	}
 
+	@Override
+	public String toString() {
+		return "UserConfig [token=" + token + ", cityName=" + cityName
+				+ ", remindRain=" + remindRain + ", remindWind=" + remindWind
+				+ ", remindCooling=" + remindCooling + ", remindHot="
+				+ remindHot + ", timeStr=" + timeStr + ", time=" + time + "]";
+	}
+
 }

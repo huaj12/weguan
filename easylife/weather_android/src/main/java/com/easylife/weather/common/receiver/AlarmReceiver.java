@@ -29,7 +29,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(final Context context, Intent intent) {
 		if (Constants.ALARM_INTENT.equals(intent.getAction())) {
-			Log.d("weather", "alarmReceiver is begin");
+			Log.e("weather", "alarmReceiver is begin");
 			WifiManager wm = (WifiManager) context
 					.getSystemService(Context.WIFI_SERVICE);
 			if (wm != null && !wm.isWifiEnabled()) {
@@ -95,9 +95,10 @@ public class AlarmReceiver extends BroadcastReceiver {
 						IWeatherDataService weatherDataService = new WeatherDataService();
 						// 先清除数据然后再像服务端请求数据
 						WeatherDataManager.delWeatherDate(context);
-						Log.d("weather", "updateWeatherDate is begin");
+						Log.e("weather", "updateWeatherDate is begin"
+								+ cityName);
 						weatherDataService.updateWeatherDate(cityName, context);
-						Log.d("weather", "updateWeatherDate is end");
+						Log.e("weather", "updateWeatherDate is end" + cityName);
 						if (mWifiLock != null && mWifiLock.isHeld()) {
 							mWifiLock.release();
 						}
@@ -106,12 +107,12 @@ public class AlarmReceiver extends BroadcastReceiver {
 				}
 
 				protected void onPostExecute(Void result) {
-					Log.d("weather", "send notification message begin");
+					Log.e("weather", "send notification message begin");
 					if (!WeatherUtils.isAppOnForeground(context)) {
 						WeatherInfo weatherInfo = WeatherDataManager
 								.getWeatherInfos(DateUtil.getToday(), context);
 						if (weatherInfo == null) {
-							Log.d("weather", "weather info data is null");
+							Log.e("weather", "weather info data is null");
 							return;
 						}
 						String title = context.getResources().getString(
@@ -122,6 +123,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 										DateUtil.getYesterday(), context),
 								context);
 						if (StringUtils.hasText(message)) {
+							Log.e("weather", message);
 							Intent msgIntent = new Intent(context,
 									LaunchActivity.class);
 							msgIntent.setAction(Intent.ACTION_MAIN);
@@ -132,7 +134,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 											PendingIntent.FLAG_UPDATE_CURRENT);
 							WeatherUtils.sendNotificationMessage(smsNoticeType,
 									title, message, pendingIntent, context);
-							Log.d("weather", "send notification message end");
+							Log.e("weather", "send notification message end");
 						}
 
 					}
@@ -146,6 +148,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 	private String userRemind(WeatherInfo info, WeatherInfo yesterdayInfo,
 			Context context) {
 		UserConfig user = UserConfigManager.getUserConfig(context);
+		Log.e("weather", user.toString());
 		StringBuilder text = new StringBuilder();
 		if (user.isRemindRain()) {
 			String rainText = context.getResources().getString(R.string.rain);

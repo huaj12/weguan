@@ -8,6 +8,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.easylife.weather.BuildConfig;
+import com.easylife.weather.core.ApplicationContext;
 import com.easylife.weather.core.data.SharedPreferencesManager;
 import com.easylife.weather.core.utils.JacksonSerializer;
 import com.easylife.weather.passport.model.UserConfig;
@@ -20,10 +21,9 @@ public class UserConfigManager {
 			if (manager == null) {
 				manager = new SharedPreferencesManager(context);
 			}
-			// ApplicationContext applicationContext = (ApplicationContext)
-			// context
-			// .getApplicationContext();
-			// applicationContext.setUserConfig(userConfig);
+			ApplicationContext applicationContext = (ApplicationContext) context
+					.getApplicationContext();
+			applicationContext.setUserConfig(userConfig);
 			try {
 				String jsonUserStr = JacksonSerializer.toString(userConfig);
 				manager.commit(SharedPreferencesManager.P_USER_CONFIG,
@@ -38,15 +38,15 @@ public class UserConfigManager {
 	}
 
 	public static UserConfig getUserConfig(Context context) {
-		// ApplicationContext applicationContext = (ApplicationContext) context
-		// .getApplicationContext();
-		// UserConfig userConfig = applicationContext.getUserConfig();
-		// if (userConfig == null) {
-		UserConfig userConfig = getPersistUserConfig(context);
-		// if (userConfig != null) {
-		// applicationContext.setUserConfig(userConfig);
-		// }
-		// }
+		ApplicationContext applicationContext = (ApplicationContext) context
+				.getApplicationContext();
+		UserConfig userConfig = applicationContext.getUserConfig();
+		if (userConfig == null) {
+			userConfig = getPersistUserConfig(context);
+			if (userConfig != null) {
+				applicationContext.setUserConfig(userConfig);
+			}
+		}
 		return userConfig;
 	}
 

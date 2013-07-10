@@ -11,12 +11,13 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import com.baidu.location.LocationClient;
 import com.easylife.weather.core.listenner.LocationListenner;
 import com.easylife.weather.main.model.WeatherInfo;
+import com.easylife.weather.passport.model.UserConfig;
 
 public class ApplicationContext extends Application {
 	public final String DOMAIN = "10.10.10.103";
 	// public final String baseUrl = "http://" + DOMAIN + ":8080/weather/";
 	private Map<String, WeatherInfo> weatherInfos = null;
-	// private UserConfig userConfig = null;
+	private UserConfig userConfig = null;
 	public LocationClient mLocationClient = null;
 	private Double latitude;
 	private Double longitude;
@@ -75,12 +76,12 @@ public class ApplicationContext extends Application {
 		this.longitude = longitude;
 	}
 
-	// public UserConfig getUserConfig() {
-	// return userConfig;
-	// }
-	//
-	// public void setUserConfig(UserConfig userConfig) {
-	// this.userConfig = userConfig;
-	// }
+	public UserConfig getUserConfig() {
+		return userConfig;
+	}
+
+	public void setUserConfig(UserConfig userConfig) {
+		this.userConfig = userConfig;
+	}
 
 }

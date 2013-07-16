@@ -2,7 +2,7 @@
 <resources>
     <!-- common -->
     <string name="app_name">懒人天气</string>
-    <string name="sending">正在发送请求</string>
+    <string name="sending">正在加载...</string>
     <string name="please_wait">请等待</string>
     <string name="success">操作成功</string>
     <string name="week">今天/%1$s</string>
@@ -120,4 +120,6 @@
     <string name="spread_app_cancel">下次再说</string>
     <string name="spread_app_message">【哇哦小视频】帮你打发各种空虚无聊，快来试试吧！</string>
     <string name="spread_app_title">懒人团队推出新品</string>
+    <!-- 桌面插件 -->
+    <string name="weather_widget_date">%1$s&#160;%2$s&#160;%3$s</string>
 </resources>

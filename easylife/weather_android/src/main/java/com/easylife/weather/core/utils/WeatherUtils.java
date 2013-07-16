@@ -77,7 +77,7 @@ public class WeatherUtils {
 	public static int getTmpResource(WeatherInfo info) {
 		int resource = 0;
 		try {
-			if (Integer.parseInt(info.getMaxTmp()) > Constants.HOT_TMP) {
+			if (Integer.parseInt(info.getMaxTmp()) >= Constants.HOT_TMP) {
 				resource = R.drawable.jrgw_normal;
 			}
 		} catch (Exception e) {
@@ -302,5 +302,26 @@ public class WeatherUtils {
 			// + (1000 * 30), noticePeriod, sender);
 		}
 		Log.d("weather", "setRepeating end");
+	}
+
+	public static String getTmpRange(WeatherInfo todayWeather, Context mContext) {
+		String str = null;
+		if (!StringUtils.hasText(todayWeather.getMinTmp())
+				&& !StringUtils.hasText(todayWeather.getMaxTmp())) {
+			str = mContext.getResources().getString(R.string.tmp,
+					todayWeather.getNowTmp(), todayWeather.getNowTmp());
+		} else if (StringUtils.hasText(todayWeather.getMinTmp())
+				&& !StringUtils.hasText(todayWeather.getMaxTmp())) {
+			str = mContext.getResources().getString(R.string.min_tmp,
+					todayWeather.getMinTmp());
+		} else if (!StringUtils.hasText(todayWeather.getMinTmp())
+				&& StringUtils.hasText(todayWeather.getMaxTmp())) {
+			str = mContext.getResources().getString(R.string.max_tmp,
+					todayWeather.getMaxTmp());
+		} else {
+			str = mContext.getResources().getString(R.string.tmp,
+					todayWeather.getMinTmp(), todayWeather.getMaxTmp());
+		}
+		return str;
 	}
 }

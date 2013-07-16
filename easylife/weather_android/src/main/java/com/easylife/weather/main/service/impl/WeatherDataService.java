@@ -15,10 +15,12 @@ import org.springframework.web.client.RestClientException;
 import org.xmlpull.v1.XmlPullParser;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.util.Xml;
 
 import com.easylife.weather.R;
+import com.easylife.weather.core.Constants;
 import com.easylife.weather.core.data.SharedPreferencesManager;
 import com.easylife.weather.core.exception.WeatherException;
 import com.easylife.weather.core.model.Result.StringResult;
@@ -206,10 +208,15 @@ public class WeatherDataService implements IWeatherDataService {
 
 		}
 		result.setResult(weathers);
+		WeatherDataManager.delWeatherDate(context);
 		WeatherDataManager.saveWeatherInfo(context, result);
 		SharedPreferencesManager manager = new SharedPreferencesManager(context);
 		manager.commit(SharedPreferencesManager.LAST_UPDATE_TIME,
 				System.currentTimeMillis());
+		//通知桌面插件更新ui
+		Intent intent = new Intent();
+		intent.setAction(Constants.WIDGET_UPDATE_INTENT);
+		context.sendBroadcast(intent);
 		return result;
 	}
 

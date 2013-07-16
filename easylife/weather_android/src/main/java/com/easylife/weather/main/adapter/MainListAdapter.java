@@ -86,22 +86,7 @@ public class MainListAdapter extends BaseAdapter {
 			tmp = todayWeather.getMinTmp();
 		}
 		tmpIcon.setText(todayWeather.getNowTmp());
-		if (!StringUtils.hasText(todayWeather.getMinTmp())
-				&& !StringUtils.hasText(todayWeather.getMaxTmp())) {
-			tmpText.setText(mContext.getResources().getString(R.string.tmp,
-					todayWeather.getNowTmp(), todayWeather.getNowTmp()));
-		} else if (StringUtils.hasText(todayWeather.getMinTmp())
-				&& !StringUtils.hasText(todayWeather.getMaxTmp())) {
-			tmpText.setText(mContext.getResources().getString(R.string.min_tmp,
-					todayWeather.getMinTmp()));
-		} else if (!StringUtils.hasText(todayWeather.getMinTmp())
-				&& StringUtils.hasText(todayWeather.getMaxTmp())) {
-			tmpText.setText(mContext.getResources().getString(R.string.max_tmp,
-					todayWeather.getMaxTmp()));
-		} else {
-			tmpText.setText(mContext.getResources().getString(R.string.tmp,
-					todayWeather.getMinTmp(), todayWeather.getMaxTmp()));
-		}
+		tmpText.setText(WeatherUtils.getTmpRange(todayWeather, mContext));
 
 	}
 

@@ -2,8 +2,6 @@ package com.easylife.weather.widget.service;
 
 import java.util.Calendar;
 
-import org.springframework.util.StringUtils;
-
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
 import android.content.BroadcastReceiver;
@@ -14,7 +12,6 @@ import android.content.IntentFilter;
 import android.os.IBinder;
 import android.text.format.DateFormat;
 import android.util.Log;
-import android.view.View;
 import android.widget.RemoteViews;
 
 import com.easylife.weather.R;
@@ -23,10 +20,9 @@ import com.easylife.weather.core.utils.DateUtil;
 import com.easylife.weather.core.utils.WeatherUtils;
 import com.easylife.weather.main.data.WeatherDataManager;
 import com.easylife.weather.main.model.WeatherInfo;
-import com.easylife.weather.passport.data.UserConfigManager;
-import com.easylife.weather.widget.WeatherWidgetProvider;
+import com.easylife.weather.widget.WeatherWidgetProviderX2;
 
-public class UpdateWidgetUIService extends Service {
+public class UpdateWidgetUIServiceX2 extends Service {
 
 	public static Context context;
 	public static AppWidgetManager appWidgetManager;
@@ -43,7 +39,7 @@ public class UpdateWidgetUIService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		Log.e("service", "--service created--");
+		Log.e("service2", "--service created--");
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction(Intent.ACTION_TIME_TICK); // 时间的流逝
 		intentFilter.addAction(Intent.ACTION_TIME_CHANGED); // 时间被改变，人为设置时间
@@ -53,7 +49,7 @@ public class UpdateWidgetUIService extends Service {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Log.e("service", "--service started--");
+		Log.e("service2", "--service started--");
 		updateUI(); // 开始服务前先刷新一次UI
 		return START_STICKY;
 	}
@@ -69,76 +65,33 @@ public class UpdateWidgetUIService extends Service {
 	private BroadcastReceiver boroadcastReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context acontext, Intent intent) {
-			Log.e("time received", "--receive--" + intent.getAction());
+			Log.e("time received2", "--receive--" + intent.getAction());
 			updateUI();
 		}
 	};
 
 	// 根据当前时间设置小部件相应的数字图片
 	private void updateUI() {
-		String cityName = UserConfigManager
-				.getCityName(UpdateWidgetUIService.this);
 		weatherInfo = WeatherDataManager.getWeatherInfos(DateUtil.getToday(),
-				UpdateWidgetUIService.this);
+				UpdateWidgetUIServiceX2.this);
 		Calendar cal = Calendar.getInstance();
 		remoteViews.setTextViewText(R.id.widget_time,
 				DateFormat.format("hh:mm", cal.getTime()));
 		remoteViews.setTextViewText(
 				R.id.widget_date,
 				context.getResources().getString(R.string.weather_widget_date,
-						StringUtils.hasText(cityName) ? cityName : "",
-						DateUtil.WEEK[cal.get(Calendar.DAY_OF_WEEK) - 1],
-						DateFormat.format("MM月dd", cal.getTime())));
-		if (weatherInfo == null) {
-			remoteViews.setViewVisibility(R.id.weather_layout, View.GONE);
-		} else {
-			remoteViews.setViewVisibility(R.id.divider1, View.VISIBLE);
-			remoteViews.setViewVisibility(R.id.divider2, View.VISIBLE);
-			remoteViews.setViewVisibility(R.id.divider3, View.VISIBLE);
-			remoteViews.setViewVisibility(R.id.weather_layout, View.VISIBLE);
-			getWeather();
-			remoteViews.setTextViewText(R.id.tmp_text, weatherInfo.getNowTmp());
+						"", DateUtil.WEEK[cal.get(Calendar.DAY_OF_WEEK) - 1],
+						DateFormat.format("MM/dd", cal.getTime())));
+		if (weatherInfo != null) {
+			remoteViews.setTextViewText(R.id.sky_text, weatherInfo.getSky());
 			remoteViews.setTextViewText(R.id.tmp_text_range, WeatherUtils
-					.getTmpRange(weatherInfo, UpdateWidgetUIService.this));
-			getPM2();
+					.getTmpRange(weatherInfo, UpdateWidgetUIServiceX2.this));
 		}
 		// 将AppWidgetProvider的子类包装成ComponentName对象
 		ComponentName componentName = new ComponentName(context,
-				WeatherWidgetProvider.class);
+				WeatherWidgetProviderX2.class);
 		// 调用AppWidgetManager将remoteViews添加到ComponentName中
 		appWidgetManager.updateAppWidget(componentName, remoteViews);
 	}
 
-	private void getPM2() {
-		int pm25 = WeatherUtils.getPM2Level(weatherInfo);
-		if (pm25 != 0) {
-			int iconId = context.getResources()
-					.getIdentifier("pm25_" + pm25 + "_w", "drawable",
-							context.getPackageName());
-			remoteViews.setImageViewResource(R.id.pm25_image, iconId);
-			if (pm25 > 2) {
-				remoteViews.setTextViewText(
-						R.id.pm25_text,
-						context.getResources().getString(R.string.pm25,
-								weatherInfo.getAir().getAqigrade()));
-			} else {
-				remoteViews.setTextViewText(
-						R.id.pm25_text,
-						context.getResources().getString(R.string.pm25,
-								weatherInfo.getAir().getAqigrade()));
-			}
-			remoteViews.setViewVisibility(R.id.pm25, View.VISIBLE);
-		} else {
-			remoteViews.setViewVisibility(R.id.pm25, View.GONE);
-		}
-
-	}
-
-	private void getWeather() {
-		int iconId = context.getResources().getIdentifier(
-				"w" + weatherInfo.getIcon() + "_w", "drawable",
-				context.getPackageName());
-		remoteViews.setImageViewResource(R.id.sky_image, iconId);
-		remoteViews.setTextViewText(R.id.sky_text, weatherInfo.getSky());
-	}
 }

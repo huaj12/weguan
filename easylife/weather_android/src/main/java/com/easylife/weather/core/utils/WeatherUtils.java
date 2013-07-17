@@ -304,6 +304,26 @@ public class WeatherUtils {
 		Log.d("weather", "setRepeating end");
 	}
 
+	public static void updateData(Context context) {
+		long noticePeriod = 1000 * 1200;
+		AlarmManager am = (AlarmManager) context
+				.getSystemService(Context.ALARM_SERVICE);
+		PendingIntent sender = PendingIntent.getBroadcast(context, 0,
+				new Intent(Constants.UPDATE_DATA_INTENT),
+				PendingIntent.FLAG_CANCEL_CURRENT);
+		am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
+				+ noticePeriod, noticePeriod, sender);
+	}
+
+	public static void cancelUpdateData(Context context) {
+		AlarmManager am = (AlarmManager) context
+				.getSystemService(Context.ALARM_SERVICE);
+		PendingIntent sender = PendingIntent.getBroadcast(context, 0,
+				new Intent(Constants.UPDATE_DATA_INTENT),
+				PendingIntent.FLAG_CANCEL_CURRENT);
+		am.cancel(sender);
+	}
+
 	public static String getTmpRange(WeatherInfo todayWeather, Context mContext) {
 		String str = null;
 		if (!StringUtils.hasText(todayWeather.getMinTmp())

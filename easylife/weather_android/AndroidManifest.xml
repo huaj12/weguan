@@ -62,6 +62,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.alarm.weather.action"/>
+                <action android:name="android.weather.update.data.action"/>
             </intent-filter>
       </receiver>
       
@@ -92,9 +93,9 @@
 	   <service android:name="com.easy.service.easyPackageChangedService"></service>
 	   
 	   
-	   <!-- 桌面插件 -->
+	   <!-- 桌面插件  x4-->
 	    <receiver android:name=".widget.WeatherWidgetProvider"     
-            android:label="@string/app_name">  
+            android:label="@string/widget_namex4">  
               
             <intent-filter>  
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -105,8 +106,20 @@
                 android:resource="@xml/widget_weather" />  
   
         </receiver>  
-          
-        <service android:name=".widget.service.UpdateWidgetUIService" />  
+        <receiver android:name=".widget.WeatherWidgetProviderX2"     
+            android:label="@string/widget_namex2">  
+              
+            <intent-filter>  
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>  
+            </intent-filter>  
+              
+            <meta-data android:name="android.appwidget.provider"  
+                android:resource="@xml/widget_weatherx2" />  
+  
+        </receiver>
+        <service android:name=".widget.service.UpdateWidgetUIService" />    
+        <service android:name=".widget.service.UpdateWidgetUIServiceX2" />  
   </application>
 
 </manifest>

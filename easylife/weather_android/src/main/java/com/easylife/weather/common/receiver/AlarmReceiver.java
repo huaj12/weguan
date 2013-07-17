@@ -142,6 +142,23 @@ public class AlarmReceiver extends BroadcastReceiver {
 			}.execute();
 		} else if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
 			WeatherUtils.setRepeating(context);
+		} else if (intent.getAction().equals(Constants.UPDATE_DATA_INTENT)) {
+			Log.e("weather", "update data is begin");
+			new AsyncTask<Void, Void, Void>() {
+
+				@Override
+				protected Void doInBackground(Void... params) {
+					// 执行任务
+					String cityName = UserConfigManager.getCityName(context);
+					if (StringUtils.hasText(cityName)) {
+						IWeatherDataService weatherDataService = new WeatherDataService();
+						weatherDataService.updateWeatherDate(cityName, context);
+						Log.e("weather", "update success");
+					}
+					return null;
+				}
+
+			}.execute();
 		}
 	}
 

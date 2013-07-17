@@ -61,7 +61,7 @@
     <string name="pm25_4">中度污染</string>
     <string name="pm25_5">重度</string>
     <string name="wind">%1$s&#160;%2$s&#160;级</string>
-    <string name="tmp">%1$s~%2$s℃</string>
+    <string name="tmp">%1$s~%2$s°</string>
     <string name="min_tmp">最低%1$s℃</string>
     <string name="max_tmp">最高%1$s℃</string>
     <string name="deg">℃</string>
@@ -122,4 +122,6 @@
     <string name="spread_app_title">懒人团队推出新品</string>
     <!-- 桌面插件 -->
     <string name="weather_widget_date">%1$s&#160;%2$s&#160;%3$s</string>
+    <string name="widget_namex4">懒人天气4x1</string>
+    <string name="widget_namex2">懒人天气2x1</string>
 </resources>

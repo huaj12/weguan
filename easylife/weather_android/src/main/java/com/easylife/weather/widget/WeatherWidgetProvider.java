@@ -34,11 +34,9 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
 		super.onReceive(context, intent);
 	}
 
-	// 在小控件被删除时调用该方法停止Service
 	@Override
-	public void onDeleted(Context context, int[] appWidgetIds) {
-		super.onDeleted(context, appWidgetIds);
-		Log.e("appwidget", "--deleted--");
+	public void onDisabled(Context context) {
+		super.onDisabled(context);
 		Intent intent = new Intent(context, UpdateWidgetUIService.class);
 		context.stopService(intent);
 		WeatherUtils.cancelUpdateData(context);

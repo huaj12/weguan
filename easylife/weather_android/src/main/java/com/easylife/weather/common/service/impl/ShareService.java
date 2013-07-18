@@ -9,11 +9,13 @@ import android.content.Intent;
 import com.easylife.weather.R;
 import com.easylife.weather.common.service.IShareService;
 import com.easylife.weather.common.service.SharedApp;
+import com.easylife.weather.core.stat.UmengEvent;
 import com.easylife.weather.core.utils.WXUtils;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.SendMessageToWX;
 import com.tencent.mm.sdk.openapi.WXMediaMessage;
 import com.tencent.mm.sdk.openapi.WXTextObject;
+import com.umeng.analytics.MobclickAgent;
 
 public class ShareService implements IShareService {
 	private IWXAPI api = null;
@@ -70,9 +72,12 @@ public class ShareService implements IShareService {
 													R.string.share_title)));
 									break;
 								}
+								if (which < 3 && which >= 0) {
+									MobclickAgent.onEvent(context,
+											UmengEvent.SHARE_FRIEND);
+								}
 
 							}
 						}).show();
 	}
-
 }

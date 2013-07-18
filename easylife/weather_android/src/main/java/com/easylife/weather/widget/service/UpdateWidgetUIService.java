@@ -89,9 +89,8 @@ public class UpdateWidgetUIService extends Service {
 						StringUtils.hasText(cityName) ? cityName : "",
 						DateUtil.WEEK[cal.get(Calendar.DAY_OF_WEEK) - 1],
 						DateFormat.format("MM月dd", cal.getTime())));
-		if (weatherInfo == null) {
-			remoteViews.setViewVisibility(R.id.weather_layout, View.GONE);
-		} else {
+		if (weatherInfo != null && StringUtils.hasText(weatherInfo.getNowTmp())
+				&& StringUtils.hasText(weatherInfo.getSky())) {
 			remoteViews.setViewVisibility(R.id.divider1, View.VISIBLE);
 			remoteViews.setViewVisibility(R.id.divider2, View.VISIBLE);
 			remoteViews.setViewVisibility(R.id.divider3, View.VISIBLE);
@@ -102,6 +101,9 @@ public class UpdateWidgetUIService extends Service {
 					.getTmpRange(weatherInfo, UpdateWidgetUIService.this));
 			getPM2();
 		}
+		// else {
+		// remoteViews.setViewVisibility(R.id.weather_layout, View.GONE);
+		// }
 		// 将AppWidgetProvider的子类包装成ComponentName对象
 		ComponentName componentName = new ComponentName(context,
 				WeatherWidgetProvider.class);

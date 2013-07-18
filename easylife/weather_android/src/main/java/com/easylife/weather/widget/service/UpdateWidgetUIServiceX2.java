@@ -2,6 +2,8 @@ package com.easylife.weather.widget.service;
 
 import java.util.Calendar;
 
+import org.springframework.util.StringUtils;
+
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
 import android.content.BroadcastReceiver;
@@ -82,7 +84,7 @@ public class UpdateWidgetUIServiceX2 extends Service {
 				context.getResources().getString(R.string.weather_widget_date,
 						"", DateUtil.WEEK[cal.get(Calendar.DAY_OF_WEEK) - 1],
 						DateFormat.format("MM/dd", cal.getTime())));
-		if (weatherInfo != null) {
+		if (weatherInfo != null && StringUtils.hasText(weatherInfo.getSky())) {
 			remoteViews.setTextViewText(R.id.sky_text, weatherInfo.getSky());
 			remoteViews.setTextViewText(R.id.tmp_text_range, WeatherUtils
 					.getTmpRange(weatherInfo, UpdateWidgetUIServiceX2.this));

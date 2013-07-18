@@ -9,9 +9,11 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.easylife.weather.R;
+import com.easylife.weather.core.stat.UmengEvent;
 import com.easylife.weather.core.utils.WeatherUtils;
 import com.easylife.weather.main.activity.LaunchActivity;
 import com.easylife.weather.widget.service.UpdateWidgetUIServiceX2;
+import com.umeng.analytics.MobclickAgent;
 
 public class WeatherWidgetProviderX2 extends AppWidgetProvider {
 
@@ -38,6 +40,16 @@ public class WeatherWidgetProviderX2 extends AppWidgetProvider {
 		Intent intent = new Intent(context, UpdateWidgetUIServiceX2.class);
 		context.stopService(intent);
 		WeatherUtils.cancelUpdateData(context);
+	}
+
+	@Override
+	public void onEnabled(Context context) {
+		try {
+			MobclickAgent.onEvent(context, UmengEvent.ADD_WEATHER_WIDGET);
+		} catch (Exception e) {
+
+		}
+		super.onEnabled(context);
 	}
 
 	public void startService(Context context) {

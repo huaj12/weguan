@@ -28,6 +28,7 @@ import com.easylife.weather.passport.data.UserConfigManager;
 import com.easylife.weather.passport.model.UserConfig;
 import com.easylife.weather.passport.service.IPassportService;
 import com.easylife.weather.passport.service.impl.PassPortService;
+import com.umeng.analytics.MobclickAgent;
 
 public class LaunchActivity extends BaseActivity {
 	private IPassportService passPortService = new PassPortService();
@@ -47,6 +48,7 @@ public class LaunchActivity extends BaseActivity {
 		DianJinPlatform.initialize(this, Constants.DIANJIN_ID,
 				Constants.SECRET_KEY);
 		setContentView(R.layout.page_launch);
+		MobclickAgent.onError(this);
 		jump();
 	}
 

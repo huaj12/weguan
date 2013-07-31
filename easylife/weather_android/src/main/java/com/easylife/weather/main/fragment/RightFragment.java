@@ -3,6 +3,7 @@ package com.easylife.weather.main.fragment;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.easy.DianJinPlatform;
 import com.easy.DianJinPlatform.OfferWallStyle;
@@ -33,9 +33,6 @@ import com.easylife.weather.main.adapter.RemindListAdapter;
 import com.easylife.weather.main.adapter.SettingListAdapter;
 import com.easylife.weather.passport.model.UserConfig;
 import com.umeng.analytics.MobclickAgent;
-import com.umeng.update.UmengUpdateAgent;
-import com.umeng.update.UmengUpdateListener;
-import com.umeng.update.UpdateResponse;
 
 public class RightFragment extends Fragment {
 	private Context context;
@@ -101,36 +98,10 @@ public class RightFragment extends Fragment {
 					startActivity(new Intent(context, PeelsActivity.class));
 					break;
 				case 5:
-					UmengUpdateAgent.update(context);
-					UmengUpdateAgent.setUpdateAutoPopup(false);
-					UmengUpdateAgent
-							.setUpdateListener(new UmengUpdateListener() {
-								@Override
-								public void onUpdateReturned(int updateStatus,
-										UpdateResponse updateInfo) {
-									switch (updateStatus) {
-									case 0: // has update
-										UmengUpdateAgent.showUpdateDialog(
-												context, updateInfo);
-										break;
-									case 1: // has no update
-										Toast.makeText(context,
-												R.string.no_update_ver,
-												Toast.LENGTH_SHORT).show();
-										break;
-									case 2: // none wifi
-										Toast.makeText(context,
-												R.string.no_wifi,
-												Toast.LENGTH_SHORT).show();
-										break;
-									case 3: // time out
-										Toast.makeText(context,
-												R.string.no_network,
-												Toast.LENGTH_SHORT).show();
-										break;
-									}
-								}
-							});
+					String packetName = context.getPackageName();
+					Uri uri = Uri.parse("market://details?id=" + packetName);
+					Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+					startActivity(intent);
 					break;
 				case 6:
 					DianJinPlatform.showOfferWall(context, Oriention.SENSOR,

@@ -407,10 +407,42 @@ public class MainActivity extends SlidingFragmentActivity {
 		// 没有弹过框,间隔时间大于72小时
 		if (!hasDialog
 				&& System.currentTimeMillis() - dailogTime > Constants.INTERVAL_DIALOG_TIME) {
+			// new AlertDialog.Builder(MainActivity.this)
+			// .setTitle(R.string.spread_app_title)
+			// .setMessage(R.string.spread_app_message)
+			// .setPositiveButton(R.string.spread_app_ok,
+			// new DialogInterface.OnClickListener() {
+			//
+			// @Override
+			// public void onClick(DialogInterface dialog,
+			// int which) {
+			// manager.commit(
+			// SharedPreferencesManager.HAS_SPREAD_APP_DAILOG,
+			// true);
+			// Intent viewIntent = new Intent(
+			// "android.intent.action.VIEW", Uri
+			// .parse(spread_app_url));
+			// startActivity(viewIntent);
+			//
+			// }
+			// })
+			// .setNegativeButton(
+			//
+			// R.string.spread_app_cancel,
+			// new DialogInterface.OnClickListener() {
+			//
+			// @Override
+			// public void onClick(DialogInterface dialog,
+			// int which) {
+			// manager.commit(
+			// SharedPreferencesManager.SPREAD_APP_DAILOG_TIME,
+			// System.currentTimeMillis());
+			// }
+			// }).show();
+
 			new AlertDialog.Builder(MainActivity.this)
-					.setTitle(R.string.spread_app_title)
-					.setMessage(R.string.spread_app_message)
-					.setPositiveButton(R.string.spread_app_ok,
+					.setMessage(R.string.score_app_title)
+					.setPositiveButton(R.string.score_app_ok,
 							new DialogInterface.OnClickListener() {
 
 								@Override
@@ -419,24 +451,44 @@ public class MainActivity extends SlidingFragmentActivity {
 									manager.commit(
 											SharedPreferencesManager.HAS_SPREAD_APP_DAILOG,
 											true);
-									Intent viewIntent = new Intent(
-											"android.intent.action.VIEW", Uri
-													.parse(spread_app_url));
-									startActivity(viewIntent);
+									String packetName = MainActivity.this
+											.getPackageName();
+									Uri uri = Uri.parse("market://details?id="
+											+ packetName);
+									Intent intent = new Intent(
+											Intent.ACTION_VIEW, uri);
+									startActivity(intent);
 
 								}
 							})
-					.setNegativeButton(
+					.setNeutralButton(
 
-					R.string.spread_app_cancel,
+					R.string.score_app_bad,
 							new DialogInterface.OnClickListener() {
 
 								@Override
 								public void onClick(DialogInterface dialog,
 										int which) {
 									manager.commit(
-											SharedPreferencesManager.SPREAD_APP_DAILOG_TIME,
-											System.currentTimeMillis());
+											SharedPreferencesManager.HAS_SPREAD_APP_DAILOG,
+											true);
+									Intent i = new Intent(Intent.ACTION_SEND);
+									i.setType("message/rfc822");
+									i.putExtra(
+											Intent.EXTRA_EMAIL,
+											new String[] { MainActivity.this
+													.getResources()
+													.getString(
+															R.string.official_mail) });
+									i.putExtra(
+											Intent.EXTRA_SUBJECT,
+											getResources()
+													.getString(
+															R.string.setting_proposal_title));
+									startActivity(Intent.createChooser(
+											i,
+											getResources().getString(
+													R.string.send_email)));
 								}
 							}).show();
 		}

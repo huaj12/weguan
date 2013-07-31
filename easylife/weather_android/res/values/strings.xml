@@ -41,7 +41,7 @@
     <string name="forecastHour_3">下午</string>
     <string name="forecastHour_4">晚间</string>
     <string name="forecastHour_time">%1$s/%2$s</string>
-    <string name="weather_info">%1$s/%2$s~%3$s℃</string>
+    <string name="weather_info">%1$s/%2$s~%3$s°</string>
     <string name="future_date">%1$s/%2$s</string>
     <string name="tomorrow">明天</string>
     <string name="rain">雨</string>
@@ -62,8 +62,8 @@
     <string name="pm25_5">重度</string>
     <string name="wind">%1$s&#160;%2$s&#160;级</string>
     <string name="tmp">%1$s~%2$s°</string>
-    <string name="min_tmp">最低%1$s℃</string>
-    <string name="max_tmp">最高%1$s℃</string>
+    <string name="min_tmp">最低%1$s°</string>
+    <string name="max_tmp">最高%1$s°</string>
     <string name="deg">℃</string>
     
     <!-- city -->
@@ -77,7 +77,7 @@
     <string name="remind_cooling">降温提醒</string>
     <string name="remind_wind">大风预警</string>
     <string name="share_title">告诉你关心的人</string>
-    <string name="setting_version_title">检查版本</string>
+    <string name="setting_version_title">评分鼓励</string>
     <string name="setting">功能设置</string>
     <string name="setting_remind">提醒设置</string>
     <string name="setting_remind_time_title">设置提醒时间: %1$s</string>
@@ -124,4 +124,9 @@
     <string name="weather_widget_date">%1$s&#160;%2$s&#160;%3$s</string>
     <string name="widget_namex4">懒人天气4x1</string>
     <string name="widget_namex2">懒人天气2x1</string>
+    
+    <!--评分鼓励-->
+        <string name="score_app_ok">评分鼓励</string>
+	    <string name="score_app_bad">问题反馈</string>
+	    <string name="score_app_title">亲,觉得这款app怎么样?</string>
 </resources>

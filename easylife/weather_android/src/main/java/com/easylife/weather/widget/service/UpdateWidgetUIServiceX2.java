@@ -74,26 +74,35 @@ public class UpdateWidgetUIServiceX2 extends Service {
 
 	// 根据当前时间设置小部件相应的数字图片
 	private void updateUI() {
-		weatherInfo = WeatherDataManager.getWeatherInfos(DateUtil.getToday(),
-				UpdateWidgetUIServiceX2.this);
-		Calendar cal = Calendar.getInstance();
-		remoteViews.setTextViewText(R.id.widget_time,
-				DateFormat.format("hh:mm", cal.getTime()));
-		remoteViews.setTextViewText(
-				R.id.widget_date,
-				context.getResources().getString(R.string.weather_widget_date,
-						"", DateUtil.WEEK[cal.get(Calendar.DAY_OF_WEEK) - 1],
-						DateFormat.format("MM/dd", cal.getTime())));
-		if (weatherInfo != null && StringUtils.hasText(weatherInfo.getSky())) {
-			remoteViews.setTextViewText(R.id.sky_text, weatherInfo.getSky());
-			remoteViews.setTextViewText(R.id.tmp_text_range, WeatherUtils
-					.getTmpRange(weatherInfo, UpdateWidgetUIServiceX2.this));
+		try {
+			weatherInfo = WeatherDataManager.getWeatherInfos(
+					DateUtil.getToday(), UpdateWidgetUIServiceX2.this);
+			Calendar cal = Calendar.getInstance();
+			remoteViews.setTextViewText(R.id.widget_time,
+					DateFormat.format("kk:mm", cal.getTime()));
+			remoteViews.setTextViewText(
+					R.id.widget_date,
+					context.getResources().getString(
+							R.string.weather_widget_date, "",
+							DateUtil.WEEK[cal.get(Calendar.DAY_OF_WEEK) - 1],
+							DateFormat.format("MM/dd", cal.getTime())));
+			if (weatherInfo != null
+					&& StringUtils.hasText(weatherInfo.getSky())) {
+				remoteViews
+						.setTextViewText(R.id.sky_text, weatherInfo.getSky());
+				remoteViews
+						.setTextViewText(R.id.tmp_text_range, WeatherUtils
+								.getTmpRange(weatherInfo,
+										UpdateWidgetUIServiceX2.this));
+			}
+			// 将AppWidgetProvider的子类包装成ComponentName对象
+			ComponentName componentName = new ComponentName(context,
+					WeatherWidgetProviderX2.class);
+			// 调用AppWidgetManager将remoteViews添加到ComponentName中
+			appWidgetManager.updateAppWidget(componentName, remoteViews);
+		} catch (Exception e) {
+
 		}
-		// 将AppWidgetProvider的子类包装成ComponentName对象
-		ComponentName componentName = new ComponentName(context,
-				WeatherWidgetProviderX2.class);
-		// 调用AppWidgetManager将remoteViews添加到ComponentName中
-		appWidgetManager.updateAppWidget(componentName, remoteViews);
 	}
 
 }

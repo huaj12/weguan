@@ -76,39 +76,47 @@ public class UpdateWidgetUIService extends Service {
 
 	// 根据当前时间设置小部件相应的数字图片
 	private void updateUI() {
-		String cityName = UserConfigManager
-				.getCityName(UpdateWidgetUIService.this);
-		weatherInfo = WeatherDataManager.getWeatherInfos(DateUtil.getToday(),
-				UpdateWidgetUIService.this);
-		Calendar cal = Calendar.getInstance();
-		remoteViews.setTextViewText(R.id.widget_time,
-				DateFormat.format("hh:mm", cal.getTime()));
-		remoteViews.setTextViewText(
-				R.id.widget_date,
-				context.getResources().getString(R.string.weather_widget_date,
-						StringUtils.hasText(cityName) ? cityName : "",
-						DateUtil.WEEK[cal.get(Calendar.DAY_OF_WEEK) - 1],
-						DateFormat.format("MM月dd", cal.getTime())));
-		if (weatherInfo != null && StringUtils.hasText(weatherInfo.getNowTmp())
-				&& StringUtils.hasText(weatherInfo.getSky())) {
-			remoteViews.setViewVisibility(R.id.divider1, View.VISIBLE);
-			remoteViews.setViewVisibility(R.id.divider2, View.VISIBLE);
-			remoteViews.setViewVisibility(R.id.divider3, View.VISIBLE);
-			remoteViews.setViewVisibility(R.id.weather_layout, View.VISIBLE);
-			getWeather();
-			remoteViews.setTextViewText(R.id.tmp_text, weatherInfo.getNowTmp());
-			remoteViews.setTextViewText(R.id.tmp_text_range, WeatherUtils
-					.getTmpRange(weatherInfo, UpdateWidgetUIService.this));
-			getPM2();
+		try {
+			String cityName = UserConfigManager
+					.getCityName(UpdateWidgetUIService.this);
+			weatherInfo = WeatherDataManager.getWeatherInfos(
+					DateUtil.getToday(), UpdateWidgetUIService.this);
+			Calendar cal = Calendar.getInstance();
+			remoteViews.setTextViewText(R.id.widget_time,
+					DateFormat.format("kk:mm", cal.getTime()));
+			remoteViews.setTextViewText(
+					R.id.widget_date,
+					context.getResources().getString(
+							R.string.weather_widget_date,
+							StringUtils.hasText(cityName) ? cityName : "",
+							DateUtil.WEEK[cal.get(Calendar.DAY_OF_WEEK) - 1],
+							DateFormat.format("MM月dd", cal.getTime())));
+			if (weatherInfo != null
+					&& StringUtils.hasText(weatherInfo.getNowTmp())
+					&& StringUtils.hasText(weatherInfo.getSky())) {
+				remoteViews.setViewVisibility(R.id.divider1, View.VISIBLE);
+				remoteViews.setViewVisibility(R.id.divider2, View.VISIBLE);
+				remoteViews.setViewVisibility(R.id.divider3, View.VISIBLE);
+				remoteViews
+						.setViewVisibility(R.id.weather_layout, View.VISIBLE);
+				getWeather();
+				remoteViews.setTextViewText(R.id.tmp_text,
+						weatherInfo.getNowTmp());
+				remoteViews.setTextViewText(R.id.tmp_text_range, WeatherUtils
+						.getTmpRange(weatherInfo, UpdateWidgetUIService.this));
+				getPM2();
+			}
+			// else {
+			// remoteViews.setViewVisibility(R.id.weather_layout, View.GONE);
+			// }
+			// 将AppWidgetProvider的子类包装成ComponentName对象
+			ComponentName componentName = new ComponentName(context,
+					WeatherWidgetProvider.class);
+			// 调用AppWidgetManager将remoteViews添加到ComponentName中
+			appWidgetManager.updateAppWidget(componentName, remoteViews);
+		} catch (Exception e) {
+
 		}
-		// else {
-		// remoteViews.setViewVisibility(R.id.weather_layout, View.GONE);
-		// }
-		// 将AppWidgetProvider的子类包装成ComponentName对象
-		ComponentName componentName = new ComponentName(context,
-				WeatherWidgetProvider.class);
-		// 调用AppWidgetManager将remoteViews添加到ComponentName中
-		appWidgetManager.updateAppWidget(componentName, remoteViews);
 	}
 
 	private void getPM2() {
@@ -119,10 +127,8 @@ public class UpdateWidgetUIService extends Service {
 							context.getPackageName());
 			remoteViews.setImageViewResource(R.id.pm25_image, iconId);
 			if (pm25 > 2) {
-				remoteViews.setTextViewText(
-						R.id.pm25_text,
-						context.getResources().getString(R.string.pm25,
-								weatherInfo.getAir().getAqigrade()));
+				remoteViews.setTextViewText(R.id.pm25_text, weatherInfo
+						.getAir().getAqigrade());
 			} else {
 				remoteViews.setTextViewText(
 						R.id.pm25_text,

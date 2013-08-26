@@ -2,6 +2,7 @@ package com.easylife.weather.core.task;
 
 import org.springframework.util.StringUtils;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -40,7 +41,9 @@ public class ProgressTask extends AsyncTask<Void, Void, String> {
 	@Override
 	protected void onPostExecute(String errorInfo) {
 		if (progressDialog != null) {
-			progressDialog.dismiss();
+			if (context != null && !((Activity) context).isFinishing()) {
+				progressDialog.dismiss();
+			}
 		}
 		if (StringUtils.hasText(errorInfo)) {
 			Toast.makeText(context, errorInfo, Toast.LENGTH_SHORT).show();

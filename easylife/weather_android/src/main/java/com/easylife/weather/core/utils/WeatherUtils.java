@@ -170,43 +170,49 @@ public class WeatherUtils {
 	}
 
 	public static String getforecastHourText(String time, Context context) {
-		String dayStr = context.getResources().getString(R.string.day);
-		String str[] = time.split(dayStr);
-		String hour;
-		if (str.length > 2) {
-			hour = context.getResources().getString(R.string.forecastHour_4);
-		} else {
-			String id = "forecastHour_";
-			if ("08:00-14:00".equals(str[1])) {
-				id = id + 2;
-			} else if ("14:00-20:00".equals(str[1])) {
-				id = id + 3;
+		try {
+			String dayStr = context.getResources().getString(R.string.day);
+			String str[] = time.split(dayStr);
+			String hour;
+			if (str.length > 2) {
+				hour = context.getResources()
+						.getString(R.string.forecastHour_4);
 			} else {
-				id = id + 1;
-			}
-			hour = context.getResources().getString(
-					context.getResources().getIdentifier(id, "string",
-							context.getPackageName()));
+				String id = "forecastHour_";
+				if ("08:00-14:00".equals(str[0])) {
+					id = id + 2;
+				} else if ("14:00-20:00".equals(str[0])) {
+					id = id + 3;
+				} else {
+					id = id + 1;
+				}
+				hour = context.getResources().getString(
+						context.getResources().getIdentifier(id, "string",
+								context.getPackageName()));
 
+			}
+			String date = null;
+			int day = Integer.parseInt(str[0]);
+			Calendar cal = Calendar.getInstance();
+			if (cal.get(Calendar.DAY_OF_MONTH) == day) {
+				date = context.getResources().getString(
+						R.string.forecastHour_today);
+			}
+			cal.add(Calendar.DAY_OF_MONTH, 1);
+			if (cal.get(Calendar.DAY_OF_MONTH) == day) {
+				date = context.getResources().getString(
+						R.string.forecastHour_tomorrow);
+			}
+			if (date == null) {
+				date = context.getResources().getString(
+						R.string.forecastHour_yesterday);
+			}
+			return context.getResources().getString(R.string.forecastHour_time,
+					date, hour);
+		} catch (Exception e) {
+			return "";
 		}
-		String date = null;
-		int day = Integer.parseInt(str[0]);
-		Calendar cal = Calendar.getInstance();
-		if (cal.get(Calendar.DAY_OF_MONTH) == day) {
-			date = context.getResources()
-					.getString(R.string.forecastHour_today);
-		}
-		cal.add(Calendar.DAY_OF_MONTH, 1);
-		if (cal.get(Calendar.DAY_OF_MONTH) == day) {
-			date = context.getResources().getString(
-					R.string.forecastHour_tomorrow);
-		}
-		if (date == null) {
-			date = context.getResources().getString(
-					R.string.forecastHour_yesterday);
-		}
-		return context.getResources().getString(R.string.forecastHour_time,
-				date, hour);
+
 	}
 
 	public static String getShareText(Integer[] res, Context context) {

@@ -213,7 +213,7 @@ public class WeatherDataService implements IWeatherDataService {
 		SharedPreferencesManager manager = new SharedPreferencesManager(context);
 		manager.commit(SharedPreferencesManager.LAST_UPDATE_TIME,
 				System.currentTimeMillis());
-		//通知桌面插件更新ui
+		// 通知桌面插件更新ui
 		Intent intent = new Intent();
 		intent.setAction(Constants.WIDGET_UPDATE_INTENT);
 		context.sendBroadcast(intent);
@@ -264,7 +264,7 @@ public class WeatherDataService implements IWeatherDataService {
 			String url = null;
 			try {
 				url = getUrl(cityName, context);
-			} catch (WeatherException e) {
+			} catch (Exception e) {
 			}
 			if (StringUtils.hasText(url)) {
 				getWeatherInfo(url, context);

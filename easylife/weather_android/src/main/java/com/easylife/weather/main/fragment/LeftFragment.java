@@ -64,8 +64,15 @@ public class LeftFragment extends Fragment {
 
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		WeatherInfo weatherInfo = WeatherDataManager.getWeatherInfos(
-				DateUtil.getToday(), context);
+		WeatherInfo weatherInfo = null;
+		try {
+			weatherInfo = WeatherDataManager.getWeatherInfos(
+					DateUtil.getToday(), context);
+		} catch (Exception e) {
+		}
+		if (weatherInfo == null) {
+			return;
+		}
 		List<ForecastHour> forecastList = weatherInfo.getForecastHours();
 		if (!CollectionUtils.isEmpty(forecastList)) {
 			for (ForecastHour forecastHour : forecastList) {

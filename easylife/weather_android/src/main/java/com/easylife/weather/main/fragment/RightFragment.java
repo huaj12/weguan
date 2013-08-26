@@ -62,6 +62,9 @@ public class RightFragment extends Fragment {
 
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		if (context == null) {
+			return;
+		}
 		settingAdapter = new SettingListAdapter(context);
 		settingListView.setAdapter(settingAdapter);
 		UIUtil.setListViewHeightBasedOnChildren(settingListView);

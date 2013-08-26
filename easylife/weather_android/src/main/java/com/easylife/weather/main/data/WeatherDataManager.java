@@ -67,11 +67,17 @@ public class WeatherDataManager {
 	}
 
 	public static WeatherInfo getWeatherInfos(String date, Context context) {
-		Map<String, WeatherInfo> datas = getWeatherInfos(context);
-		if (CollectionUtils.isEmpty(datas)) {
-			return null;
+		WeatherInfo info = null;
+		try {
+			Map<String, WeatherInfo> datas = getWeatherInfos(context);
+			if (CollectionUtils.isEmpty(datas)) {
+				return null;
+			}
+			info = datas.get(date);
+		} catch (Exception e) {
+
 		}
-		return datas.get(date);
+		return info;
 	}
 
 	private static WeatherInfoResult getPersistWeatherInfo(Context context) {

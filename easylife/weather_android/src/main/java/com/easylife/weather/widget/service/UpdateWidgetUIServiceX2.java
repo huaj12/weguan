@@ -77,6 +77,9 @@ public class UpdateWidgetUIServiceX2 extends Service {
 		try {
 			weatherInfo = WeatherDataManager.getWeatherInfos(
 					DateUtil.getToday(), UpdateWidgetUIServiceX2.this);
+			if (weatherInfo == null) {
+				return;
+			}
 			Calendar cal = Calendar.getInstance();
 			remoteViews.setTextViewText(R.id.widget_time,
 					DateFormat.format("kk:mm", cal.getTime()));

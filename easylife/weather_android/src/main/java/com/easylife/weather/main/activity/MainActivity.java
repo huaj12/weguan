@@ -210,11 +210,13 @@ public class MainActivity extends SlidingFragmentActivity {
 					try {
 						url = weatherDataService.getUrl(cityName,
 								MainActivity.this);
-					} catch (WeatherException e) {
+						weatherDataService.getWeatherInfo(url,
+								MainActivity.this);
+						weatherInfo = WeatherDataManager.getWeatherInfos(
+								DateUtil.getToday(), MainActivity.this);
+					} catch (Exception e) {
 					}
-					weatherDataService.getWeatherInfo(url, MainActivity.this);
-					weatherInfo = WeatherDataManager.getWeatherInfos(
-							DateUtil.getToday(), MainActivity.this);
+
 				}
 				return null;
 			}

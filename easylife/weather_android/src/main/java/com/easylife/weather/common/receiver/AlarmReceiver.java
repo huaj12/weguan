@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -23,26 +22,25 @@ import com.easylife.weather.passport.data.UserConfigManager;
 import com.easylife.weather.passport.model.UserConfig;
 
 public class AlarmReceiver extends BroadcastReceiver {
-	private WifiManager.WifiLock mWifiLock;
 	private int smsNoticeType = 0;
 
 	@Override
 	public void onReceive(final Context context, Intent intent) {
 		if (Constants.ALARM_INTENT.equals(intent.getAction())) {
 			Log.e("weather", "alarmReceiver is begin");
-			WifiManager wm = (WifiManager) context
-					.getSystemService(Context.WIFI_SERVICE);
-			if (wm != null && !wm.isWifiEnabled()) {
-				wm.setWifiEnabled(true);// 打开wifi
-			}
-			if (wm != null) {
-				if (mWifiLock == null) {
-					mWifiLock = wm.createWifiLock("spiderWifiLock");// 创建一个
-					mWifiLock.setReferenceCounted(true);
-				}
-				if (!mWifiLock.isHeld())
-					mWifiLock.acquire();// 得到锁
-			}
+			// WifiManager wm = (WifiManager) context
+			// .getSystemService(Context.WIFI_SERVICE);
+			// if (wm != null && !wm.isWifiEnabled()) {
+			// wm.setWifiEnabled(true);// 打开wifi
+			// }
+			// if (wm != null) {
+			// if (mWifiLock == null) {
+			// mWifiLock = wm.createWifiLock("spiderWifiLock");// 创建一个
+			// mWifiLock.setReferenceCounted(true);
+			// }
+			// if (!mWifiLock.isHeld())
+			// mWifiLock.acquire();// 得到锁
+			// }
 			// // 执行任务
 			// String cityName = UserConfigManager.getCityName(context);
 			// if (StringUtils.hasText(cityName)) {
@@ -99,9 +97,9 @@ public class AlarmReceiver extends BroadcastReceiver {
 								+ cityName);
 						weatherDataService.updateWeatherDate(cityName, context);
 						Log.e("weather", "updateWeatherDate is end" + cityName);
-						if (mWifiLock != null && mWifiLock.isHeld()) {
-							mWifiLock.release();
-						}
+						// if (mWifiLock != null && mWifiLock.isHeld()) {
+						// mWifiLock.release();
+						// }
 					}
 					return null;
 				}

@@ -1,1 +1,0 @@
-mvn install:install-file -Dfile=libammsdk.jar -DgroupId=com.tencent.mm -DartifactId=weixinsdk -Dversion=1.0 -Dpackaging=jar

@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=soquair_android_sdk.jar -DgroupId=com.soquair -DartifactId=ad -Dversion=2.3.2 -Dpackaging=jar

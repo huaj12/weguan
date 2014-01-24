@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=jumi.jar -DgroupId=com.ad -DartifactId=jumi -Dversion=1.0.0 -Dpackaging=jar

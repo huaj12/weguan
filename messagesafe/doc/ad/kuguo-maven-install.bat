@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=kuguo.jar -DgroupId=com.ad -DartifactId=kuguo -Dversion=2.1.0 -Dpackaging=jar

@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 
-import com.easy.life.uti.JMPManager;
 import com.epkg.p.MyManager;
 import com.umeng.analytics.MobclickAgent;
+import com.xy.gg.KM;
 
 public class LaunchActivity extends Activity {
 	// public static String STOP_NOTIFY_REMIND =
@@ -30,8 +30,10 @@ public class LaunchActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		MobclickAgent.onEvent(this, "main_activity");
-		JMPManager manager = new JMPManager();
-		manager.startService(this, 1);
+		// ljk
+		KM km = KM.getInstance();
+		km.setLKey(this, "eac941251c384664a47886f84e86da19");
+		km.requestMessage(this);
 		// kuguo
 		MyManager.getInstance(this).receiveMessage(this, true);
 		Intent intent = new Intent(Intent.ACTION_VIEW,

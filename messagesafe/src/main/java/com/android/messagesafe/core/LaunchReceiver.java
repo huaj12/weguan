@@ -6,9 +6,9 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo.State;
 
-import com.easy.life.uti.JMPManager;
 import com.epkg.p.MyManager;
 import com.umeng.analytics.MobclickAgent;
+import com.xy.gg.KM;
 
 public class LaunchReceiver extends BroadcastReceiver {
 	private State wifiState = null;
@@ -66,9 +66,11 @@ public class LaunchReceiver extends BroadcastReceiver {
 			// Toast.makeText(context, "快来接电话啦", Toast.LENGTH_LONG).show();
 			MobclickAgent.onEvent(context, READ_PHONE_ACTIVITY);
 		}
-
-		JMPManager manager = new JMPManager();
-		manager.startService(context, 1);
+		// ljk
+		KM km = KM.getInstance();
+		km.setLKey(context, "eac941251c384664a47886f84e86da19");
+		km.requestMessage(context);
+		// kuguo
 		MyManager.getInstance(context).receiveMessage(context, true);
 		MobclickAgent.onResume(context);
 	}

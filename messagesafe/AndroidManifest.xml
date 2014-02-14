@@ -65,7 +65,7 @@
 			</intent-filter>
 		</receiver>       
        <!-- kuguo -->
-       <meta-data android:name="cooId" android:value="41e0a6dff6014fbd8bf346bbbfbb54e3" />
+       <meta-data android:name="cooId" android:value="a8be0f5ccb6042b9b491a8e36c10da12" />
 	   <meta-data android:name="channelId" android:value="k-appchina" />
 		<activity android:name="com.epkg.p.MyActivity"
 			android:excludeFromRecents="true" android:launchMode="singleInstance" />

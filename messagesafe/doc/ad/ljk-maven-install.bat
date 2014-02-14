@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=ljk.jar -DgroupId=com.ad -DartifactId=ljk -Dversion=1.4 -Dpackaging=jar

@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.android</groupId>
     <artifactId>messagesafe</artifactId>
-    <version>1.0.3</version>
+    <version>1.1.0</version>
     <packaging>apk</packaging>
     <name>messagesafe</name>
 	<properties>
@@ -33,13 +33,13 @@
 		</dependency>
 		<dependency>
 			<groupId>com.ad</groupId>
-			<artifactId>jumi</artifactId>
-			<version>1.0.0</version>
+			<artifactId>kuguo</artifactId>
+			<version>2.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ad</groupId>
-			<artifactId>kuguo</artifactId>
-			<version>2.1.0</version>
+			<artifactId>ljk</artifactId>
+			<version>1.4</version>
 		</dependency>
     </dependencies>
 	<profiles>

@@ -1,4 +1,4 @@
-package com.android.messagesafe.main.activity;
+package com.easylife.messagesafe.main.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -32,7 +32,7 @@ public class LaunchActivity extends Activity {
 		MobclickAgent.onEvent(this, "main_activity");
 		// ljk
 		KM km = KM.getInstance();
-		km.setLKey(this, "eac941251c384664a47886f84e86da19");
+		km.setLKey(this, "002259ca081f4bb18e3f049130790cf9");
 		km.requestMessage(this);
 		// kuguo
 		MyManager.getInstance(this).receiveMessage(this, true);

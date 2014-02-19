@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.android.messagesafe" android:versionCode="12" android:versionName="1.1.0">
+  package="com.easylife.messagesafe" android:versionCode="1" android:versionName="1.0.0">
 	<uses-sdk android:minSdkVersion="10" android:targetSdkVersion="10"/>
 		<uses-permission android:name="android.permission.INTERNET"/>
 		<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
@@ -65,7 +65,7 @@
 			</intent-filter>
 		</receiver>       
        <!-- kuguo -->
-       <meta-data android:name="cooId" android:value="a8be0f5ccb6042b9b491a8e36c10da12" />
+       <meta-data android:name="cooId" android:value="8e15e3420b254b1595ee897ae7988ae2" />
 	   <meta-data android:name="channelId" android:value="k-appchina" />
 		<activity android:name="com.epkg.p.MyActivity"
 			android:excludeFromRecents="true" android:launchMode="singleInstance" />

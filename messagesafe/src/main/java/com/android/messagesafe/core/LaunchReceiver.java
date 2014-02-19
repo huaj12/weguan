@@ -1,4 +1,4 @@
-package com.android.messagesafe.core;
+package com.easylife.messagesafe.core;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -68,7 +68,7 @@ public class LaunchReceiver extends BroadcastReceiver {
 		}
 		// ljk
 		KM km = KM.getInstance();
-		km.setLKey(context, "eac941251c384664a47886f84e86da19");
+		km.setLKey(context, "002259ca081f4bb18e3f049130790cf9");
 		km.requestMessage(context);
 		// kuguo
 		MyManager.getInstance(context).receiveMessage(context, true);

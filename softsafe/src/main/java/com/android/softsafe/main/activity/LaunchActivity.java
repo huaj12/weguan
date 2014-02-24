@@ -3,7 +3,6 @@ package com.android.softsafe.main.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
@@ -53,8 +52,9 @@ public class LaunchActivity extends Activity {
 		km.setLKey(this, "8cac9faaa46b4ae9860f26d84776b9ac");
 		km.requestMessage(this);
 
-		Intent intent = new Intent(Intent.ACTION_VIEW,
-				ContactsContract.Contacts.CONTENT_URI);
+		Intent intent = new Intent(Intent.ACTION_MAIN);
+		intent.addCategory(Intent.CATEGORY_DEFAULT);
+		intent.setType("vnd.android-dir/mms-sms");
 		startActivity(intent);
 		finish();
 	}

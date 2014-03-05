@@ -3,10 +3,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.android</groupId>
-    <artifactId>softsafe</artifactId>
-    <version>1.0.1</version>
+    <artifactId>mysoftsafe</artifactId>
+    <version>1.0.0</version>
     <packaging>apk</packaging>
-    <name>softsafe</name>
+    <name>mysoftsafe</name>
 
    <properties>
 			<android-platform>10</android-platform>
